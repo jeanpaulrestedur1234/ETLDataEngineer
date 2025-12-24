@@ -147,6 +147,34 @@ make up
 
 ```
 
+
+
+## 📂 Input Data
+
+Place the input files inside the following directory:
+
+```text
+data/raw/doctors.xlsx
+data/raw/appointments.xlsx
+```
+
+All raw data files must be located in:
+
+```text
+data/raw/
+```
+
+## ⚙️ Environment Configuration
+
+Define the data path in the `.env` file:
+
+```env
+RAW_DATA_PATH=data/raw/
+```
+
+---
+
+
 ### 2. Execution
 
 ```bash
