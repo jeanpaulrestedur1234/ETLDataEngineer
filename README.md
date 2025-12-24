@@ -130,7 +130,8 @@ To maintain business continuity, certain errors only discard the affected row:
 
 ```bash
 # Clone the repository
-git clone <your-repository-url>
+git clone https://github.com/jeanpaulrestedur1234/ETLDataEngineer.git
+
 cd ETLDataEngineer
 
 # Setup environment variables
@@ -152,8 +153,6 @@ make up
 # Run the complete pipeline
 make run
 
-# Monitor logs
-tail -f logs/etl_pipeline.log
 
 ```
 
