@@ -122,6 +122,17 @@ To maintain business continuity, certain errors only discard the affected row:
 
 ---
 
+## 📋 Prerequisites
+
+Before running the project, make sure you have the following installed:
+
+* **Python 3.8+**: [Download here](https://www.python.org/downloads/)
+* **Docker & Docker Compose**: Required to run the PostgreSQL database locally. [Download Docker Desktop](https://www.docker.com/products/docker-desktop)
+* **Make**: Utility for automating commands (preinstalled on Linux/Mac; on Windows, use WSL or Git Bash).
+
+### Virtual Environment Setup (venv)
+
+It is **mandatory** to create a virtual environment to isolate project dependencies and avoid conflicts with the global Python installation.
 
 
 ## 🚀 Quick Start
