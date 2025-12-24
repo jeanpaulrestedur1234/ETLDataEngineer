@@ -1,0 +1,45 @@
+PYTHON = ./venv/bin/python
+PIP = ./venv/bin/pip
+
+.PHONY: help install up down etl queries run clean
+
+help:
+	@echo "Available commands:"
+	@echo "  make install   - Install dependencies"
+	@echo "  make up        - Start Docker services (Postgres)"
+	@echo "  make down      - Stop Docker services"
+	@echo "  make etl       - Run the ETL process and load data to DB"
+	@echo "  make queries   - Run the business questions SQL queries"
+	@echo "  make run       - Run both ETL and queries"
+	@echo "  make clean     - Remove temporary files and compiled Python files"
+
+install:
+	$(PIP) install -r requirements.txt
+
+up:
+	docker compose up -d
+
+down:
+	docker compose down
+
+etl:
+	@mkdir -p logs
+	$(PYTHON) src/run_etl.py 2>&1 | tee -a logs/etl_pipeline.log
+
+queries:
+	@mkdir -p logs
+	@echo "Running Query 1: Most confirmed appointments" | tee -a logs/etl_pipeline.log
+	docker exec -i healthtech_postgres psql -U user -d healthtech < sql/1_most_confirmed_doctor.sql 2>&1 | tee -a logs/etl_pipeline.log
+	@echo "\nRunning Query 2: Patient 34 confirmed" | tee -a logs/etl_pipeline.log
+	docker exec -i healthtech_postgres psql -U user -d healthtech < sql/2_patient_34_confirmed.sql 2>&1 | tee -a logs/etl_pipeline.log
+	@echo "\nRunning Query 3: Cancelled appointments Oct 21-24" | tee -a logs/etl_pipeline.log
+	docker exec -i healthtech_postgres psql -U user -d healthtech < sql/3_cancelled_oct_21_24.sql 2>&1 | tee -a logs/etl_pipeline.log
+	@echo "\nRunning Query 4: Total confirmed per doctor" | tee -a logs/etl_pipeline.log
+	docker exec -i healthtech_postgres psql -U user -d healthtech < sql/4_confirmed_per_doctor.sql 2>&1 | tee -a logs/etl_pipeline.log
+
+run: etl queries
+
+clean:
+	find . -type d -name "__pycache__" -exec rm -rf {} +
+	find . -type f -name "*.pyc" -delete
+	rm -rf logs

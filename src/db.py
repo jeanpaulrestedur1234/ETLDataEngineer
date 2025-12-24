@@ -1,17 +1,20 @@
 import psycopg2
 from sqlalchemy import create_engine, text
 import logging
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 DB_CONFIG = {
-    "user": "user",
-    "password": "password",
-    "host": "localhost",
-    "port": "5432",
-    "dbname": "healthtech"
+    "user": os.getenv("DB_USER", "user"),
+    "password": os.getenv("DB_PASSWORD", "password"),
+    "host": os.getenv("DB_HOST", "localhost"),
+    "port": os.getenv("DB_PORT", "5432"),
+    "dbname": os.getenv("DB_NAME", "healthtech")
 }
 
 DATABASE_URL = f"postgresql://{DB_CONFIG['user']}:{DB_CONFIG['password']}@{DB_CONFIG['host']}:{DB_CONFIG['port']}/{DB_CONFIG['dbname']}"
@@ -37,21 +40,23 @@ def init_db():
     cur = conn.cursor()
     
     commands = [
+        "DROP TABLE IF EXISTS appointments CASCADE;",
+        "DROP TABLE IF EXISTS doctors CASCADE;",
         """
         CREATE TABLE IF NOT EXISTS doctors (
-            doctor_id INT PRIMARY KEY,
+            id INT PRIMARY KEY,
             name VARCHAR(255),
             specialty VARCHAR(255)
         );
         """,
         """
         CREATE TABLE IF NOT EXISTS appointments (
-            booking_id VARCHAR(50) PRIMARY KEY,
+            id VARCHAR(50) PRIMARY KEY,
             patient_id INT,
             doctor_id INT,
             booking_date TIMESTAMP,
             status VARCHAR(50),
-            FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id)
+            FOREIGN KEY (doctor_id) REFERENCES doctors(id)
         );
         """
     ]

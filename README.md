@@ -8,14 +8,19 @@ This project is a local ETL (Extract, Transform, Load) pipeline designed to proc
 ETLDataEngineer/
 ├── data/
 │   └── raw/                # Raw input files (doctors.xlsx, appointments.xlsx)
-├── logs/                   # Execution logs
+├── logs/                   # Execution logs (etl_pipeline.log)
 ├── notebooks/              # Jupyter notebooks for EDA
-├── sql/                    # SQL queries for analysis
+├── sql/                    # SQL queries (split by business question)
+│   ├── 1_most_confirmed_doctor.sql
+│   ├── 2_patient_34_confirmed.sql
+│   ├── 3_cancelled_oct_21_24.sql
+│   └── 4_confirmed_per_doctor.sql
 ├── src/
+│   ├── ETL/                # ETL Classes (DoctorsETL, AppointmentsETL, services)
 │   ├── db.py               # Database connection and schema init
-│   ├── etl.py              # Main ETL pipeline script
-│   └── create_notebook.py  # Helper to generate EDA notebook
+│   └── run_etl.py          # Main ETL pipeline script
 ├── docker-compose.yml      # PostgreSQL Docker configuration
+├── Makefile                # Project orchestration
 ├── requirements.txt        # Python dependencies
 └── README.md               # This file
 ```
@@ -26,30 +31,36 @@ ETLDataEngineer/
 - Python 3.8+
 - Docker & Docker Compose
 
-### Step 1: Initialize Environment
-1.  Create a virtual environment:
+### Quick Start with Makefile
+The project uses a `Makefile` for easy orchestration.
+
+1.  **Install Dependencies**:
     ```bash
-    python3 -m venv venv
-    source venv/bin/activate
-    ```
-2.  Install dependencies:
-    ```bash
-    pip install -r requirements.txt
+    make install
     ```
 
-### Step 2: Start Database
-Start the PostgreSQL container:
-```bash
-sudo docker-compose up -d
-```
-*Note: Ensure port 5432 is free.*
+2.  **Start Database**:
+    ```bash
+    make up
+    ```
 
-### Step 3: Run ETL Pipeline
-Execute the pipeline script:
-```bash
-python src/etl.py
-```
-Check `logs/etl_pipeline.log` for execution details.
+3.  **Run Full Pipeline (ETL + Queries)**:
+    ```bash
+    make run
+    ```
+    *This command runs the ETL process and executes the business queries, logging everything to `logs/etl_pipeline.log`.*
+
+### Available Commands
+-   `make install`: Install dependencies from requirements.txt.
+-   `make up`: Start PostgreSQL container.
+-   `make down`: Stop PostgreSQL container.
+-   `make etl`: Run only the ETL process (`src/run_etl.py`).
+-   `make queries`: Run only the SQL queries.
+-   `make clean`: Remove temporary files (`__pycache__`).
+
+### Logs
+All execution outputs (ETL progress, SQL results, errors) are saved to:
+`logs/etl_pipeline.log`
 
 ## Pipeline Explanation
 
