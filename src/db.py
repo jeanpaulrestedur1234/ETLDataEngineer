@@ -51,7 +51,7 @@ def init_db():
         """,
         """
         CREATE TABLE IF NOT EXISTS appointments (
-            id VARCHAR(50) PRIMARY KEY,
+            id INT PRIMARY KEY,
             patient_id INT,
             doctor_id INT,
             booking_date TIMESTAMP,

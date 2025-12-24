@@ -1,94 +1,133 @@
-2025-12-23 23:58:22,046 - INFO - Initializing Database...
-2025-12-23 23:58:22,046 - INFO - Initializing Database...
-2025-12-23 23:58:22,105 - INFO - Database initialized successfully.
-2025-12-23 23:58:22,105 - INFO - Database initialized successfully.
-2025-12-23 23:58:22,251 - INFO - 
+2025-12-24 00:28:11,961 - INFO - Initializing Database...
+2025-12-24 00:28:11,961 - INFO - Initializing Database...
+2025-12-24 00:28:12,474 - INFO - Database initialized successfully.
+2025-12-24 00:28:12,474 - INFO - Database initialized successfully.
+2025-12-24 00:28:12,886 - INFO - 
 Running Doctors ETL...
-2025-12-23 23:58:22,251 - INFO - 
+2025-12-24 00:28:12,886 - INFO - 
 Running Doctors ETL...
-2025-12-23 23:58:22,251 - INFO - Loading data from data/raw/doc.xlsx
-2025-12-23 23:58:22,251 - INFO - Loading data from data/raw/doc.xlsx
-2025-12-23 23:58:22,600 - INFO - Records loaded: 5
-2025-12-23 23:58:22,600 - INFO - Records loaded: 5
-2025-12-23 23:58:22,604 - INFO - Records after removing null id: 5 (0 removed)
-2025-12-23 23:58:22,604 - INFO - Records after removing null id: 5 (0 removed)
-2025-12-23 23:58:22,604 - INFO - Duplicate records detected: 0
-2025-12-23 23:58:22,604 - INFO - Duplicate records detected: 0
-2025-12-23 23:58:22,605 - INFO - 
+2025-12-24 00:28:12,887 - INFO - Loading data from data/raw/doc.xlsx
+2025-12-24 00:28:12,887 - INFO - Loading data from data/raw/doc.xlsx
+2025-12-24 00:28:17,334 - INFO - Records loaded: 5
+2025-12-24 00:28:17,334 - INFO - Records loaded: 5
+2025-12-24 00:28:18,418 - INFO - Records after removing null id: 5 (0 removed)
+2025-12-24 00:28:18,418 - INFO - Records after removing null id: 5 (0 removed)
+2025-12-24 00:28:21,114 - INFO - Duplicate records detected: 0
+2025-12-24 00:28:21,118 - INFO - 
 Null values summary:
-2025-12-23 23:58:22,605 - INFO - 
+2025-12-24 00:28:21,114 - INFO - Duplicate records detected: 0
+2025-12-24 00:28:21,118 - INFO - 
 Null values summary:
-2025-12-23 23:58:22,606 - INFO - id           0
+2025-12-24 00:28:21,119 - INFO - id           0
 name         0
 specialty    0
 dtype: int64
-2025-12-23 23:58:22,606 - INFO - id           0
+2025-12-24 00:28:21,602 - INFO - Loading data to table doctors
+2025-12-24 00:28:21,119 - INFO - id           0
 name         0
 specialty    0
 dtype: int64
-2025-12-23 23:58:22,606 - INFO - Loading data to table doctors
-2025-12-23 23:58:22,606 - INFO - Loading data to table doctors
-2025-12-23 23:58:22,644 - INFO - Data loaded to doctors successfully.
-2025-12-23 23:58:22,644 - INFO - Data loaded to doctors successfully.
-2025-12-23 23:58:22,644 - INFO - 
+2025-12-24 00:28:21,602 - INFO - Loading data to table doctors
+2025-12-24 00:28:24,562 - INFO - Data loaded to doctors successfully.
+2025-12-24 00:28:24,562 - INFO - Data loaded to doctors successfully.
+2025-12-24 00:28:24,564 - INFO - 
 Running Appointments ETL...
-2025-12-23 23:58:22,644 - INFO - 
+2025-12-24 00:28:24,564 - INFO - 
 Running Appointments ETL...
-2025-12-23 23:58:22,644 - INFO - Loading data from data/raw/app.xlsx
-2025-12-23 23:58:22,644 - INFO - Loading data from data/raw/app.xlsx
-2025-12-23 23:58:22,710 - INFO - Records loaded: 1025
-2025-12-23 23:58:22,710 - INFO - Records loaded: 1025
-2025-12-23 23:58:22,725 - INFO - Records after removing null patient_id: 1022 (3 removed)
-2025-12-23 23:58:22,725 - INFO - Records after removing null patient_id: 1022 (3 removed)
-2025-12-23 23:58:22,913 - INFO - Duplicate records detected: 0
-2025-12-23 23:58:22,913 - INFO - Duplicate records detected: 0
-2025-12-23 23:58:22,913 - INFO - 
+2025-12-24 00:28:24,566 - INFO - Loading data from data/raw/app.xlsx
+2025-12-24 00:28:24,566 - INFO - Loading data from data/raw/app.xlsx
+2025-12-24 00:28:24,996 - INFO - Records loaded: 1025
+2025-12-24 00:28:24,996 - INFO - Records loaded: 1025
+2025-12-24 00:28:25,053 - INFO - Records after removing null patient_id: 1022 (3 removed)
+2025-12-24 00:28:25,053 - INFO - Records after removing null patient_id: 1022 (3 removed)
+2025-12-24 00:28:25,945 - INFO - Duplicate records detected: 0
+2025-12-24 00:28:25,945 - INFO - Duplicate records detected: 0
+2025-12-24 00:28:25,947 - INFO - 
 Null values summary:
-2025-12-23 23:58:22,913 - INFO - 
+2025-12-24 00:28:25,947 - INFO - 
 Null values summary:
-2025-12-23 23:58:22,914 - INFO - id               0
+2025-12-24 00:28:25,961 - INFO - id               0
 patient_id       0
 doctor_id        0
 booking_date    94
 status           0
 dtype: int64
-2025-12-23 23:58:22,914 - INFO - id               0
+2025-12-24 00:28:25,961 - INFO - id               0
 patient_id       0
 doctor_id        0
 booking_date    94
 status           0
 dtype: int64
-2025-12-23 23:58:22,916 - INFO - Filtered 174 appointments with invalid doctor_ids.
-2025-12-23 23:58:22,916 - INFO - Filtered 174 appointments with invalid doctor_ids.
-2025-12-23 23:58:22,916 - INFO - Loading data to table appointments
-2025-12-23 23:58:22,916 - INFO - Loading data to table appointments
-2025-12-23 23:58:23,016 - INFO - Data loaded to appointments successfully.
-2025-12-23 23:58:23,016 - INFO - Data loaded to appointments successfully.
+2025-12-24 00:28:26,078 - INFO - Filtered 174 appointments with invalid doctor_ids.
+2025-12-24 00:28:26,078 - INFO - Filtered 174 appointments with invalid doctor_ids.
+2025-12-24 00:28:26,078 - INFO - Loading data to table appointments
+2025-12-24 00:28:26,078 - INFO - Loading data to table appointments
+2025-12-24 00:28:26,506 - INFO - Data loaded to appointments successfully.
+2025-12-24 00:28:26,506 - INFO - Data loaded to appointments successfully.
 Running Query 1: Most confirmed appointments
-   name    | confirmed_appointments 
------------+------------------------
- Dr. Pérez |                    165
-(1 row)
-
-Running Query 2: Patient 34 confirmed
- patient_34_confirmed_count 
-----------------------------
-                         15
-(1 row)
-
-Running Query 3: Cancelled appointments Oct 21-24
- cancelled_count 
------------------
-              67
-(1 row)
-
-Running Query 4: Total confirmed per doctor
-     name      | total_confirmed 
----------------+-----------------
- Dr. Pérez     |             165
- Dr. Martínez  |             139
- Dr. Sánchez   |             133
- Dr. Gómez     |             128
- Dr. Rodríguez |             114
-(5 rows)
-
+2025-12-24 00:29:36,610 - INFO - Initializing Database...
+2025-12-24 00:29:36,610 - INFO - Initializing Database...
+2025-12-24 00:29:36,775 - INFO - Database initialized successfully.
+2025-12-24 00:29:36,775 - INFO - Database initialized successfully.
+2025-12-24 00:29:36,899 - INFO - 
+Running Doctors ETL...
+2025-12-24 00:29:36,899 - INFO - 
+Running Doctors ETL...
+2025-12-24 00:29:36,899 - INFO - Loading data from data/raw/doc.xlsx
+2025-12-24 00:29:36,899 - INFO - Loading data from data/raw/doc.xlsx
+2025-12-24 00:29:37,267 - INFO - Records loaded: 5
+2025-12-24 00:29:37,267 - INFO - Records loaded: 5
+2025-12-24 00:29:37,280 - INFO - Records after removing null id: 5 (0 removed)
+2025-12-24 00:29:37,280 - INFO - Records after removing null id: 5 (0 removed)
+2025-12-24 00:29:37,281 - INFO - Duplicate records detected: 0
+2025-12-24 00:29:37,281 - INFO - Duplicate records detected: 0
+2025-12-24 00:29:37,282 - INFO - 
+Null values summary:
+2025-12-24 00:29:37,282 - INFO - 
+Null values summary:
+2025-12-24 00:29:37,282 - INFO - id           0
+name         0
+specialty    0
+dtype: int64
+2025-12-24 00:29:37,282 - INFO - id           0
+name         0
+specialty    0
+dtype: int64
+2025-12-24 00:29:37,283 - INFO - Loading data to table doctors
+2025-12-24 00:29:37,283 - INFO - Loading data to table doctors
+2025-12-24 00:29:37,385 - INFO - Data loaded to doctors successfully.
+2025-12-24 00:29:37,385 - INFO - Data loaded to doctors successfully.
+2025-12-24 00:29:37,385 - INFO - 
+Running Appointments ETL...
+2025-12-24 00:29:37,385 - INFO - Loading data from data/raw/app.xlsx
+2025-12-24 00:29:37,385 - INFO - 
+Running Appointments ETL...
+2025-12-24 00:29:37,385 - INFO - Loading data from data/raw/app.xlsx
+2025-12-24 00:29:37,502 - INFO - Records loaded: 1025
+2025-12-24 00:29:37,502 - INFO - Records loaded: 1025
+2025-12-24 00:29:37,516 - INFO - Records after removing null patient_id: 1022 (3 removed)
+2025-12-24 00:29:37,516 - INFO - Records after removing null patient_id: 1022 (3 removed)
+2025-12-24 00:29:37,696 - INFO - Duplicate records detected: 0
+2025-12-24 00:29:37,696 - INFO - Duplicate records detected: 0
+2025-12-24 00:29:37,697 - INFO - 
+Null values summary:
+2025-12-24 00:29:37,697 - INFO - 
+Null values summary:
+2025-12-24 00:29:37,697 - INFO - id               0
+patient_id       0
+doctor_id        0
+booking_date    94
+status           0
+dtype: int64
+2025-12-24 00:29:37,697 - INFO - id               0
+patient_id       0
+doctor_id        0
+booking_date    94
+status           0
+dtype: int64
+2025-12-24 00:29:37,699 - INFO - Filtered 174 appointments with invalid doctor_ids.
+2025-12-24 00:29:37,699 - INFO - Filtered 174 appointments with invalid doctor_ids.
+2025-12-24 00:29:37,699 - INFO - Loading data to table appointments
+2025-12-24 00:29:37,699 - INFO - Loading data to table appointments
+2025-12-24 00:29:37,832 - INFO - Data loaded to appointments successfully.
+2025-12-24 00:29:37,832 - INFO - Data loaded to appointments successfully.

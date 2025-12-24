@@ -49,7 +49,7 @@ erDiagram
     }
     
     APPOINTMENTS {
-        string id PK
+        int id PK
         int patient_id
         int doctor_id FK
         timestamp booking_date
