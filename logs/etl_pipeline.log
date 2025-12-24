@@ -1,90 +1,94 @@
-2025-12-23 23:28:06,492 - INFO - Initializing Database...
-2025-12-23 23:28:06,581 - INFO - Database initialized successfully.
-2025-12-23 23:28:06,697 - INFO - 
+2025-12-23 23:58:22,046 - INFO - Initializing Database...
+2025-12-23 23:58:22,046 - INFO - Initializing Database...
+2025-12-23 23:58:22,105 - INFO - Database initialized successfully.
+2025-12-23 23:58:22,105 - INFO - Database initialized successfully.
+2025-12-23 23:58:22,251 - INFO - 
 Running Doctors ETL...
-2025-12-23 23:28:06,697 - INFO - Loading data from data/raw/Data Engineer's Doctors Excel - VIP Medical Group.xlsx
-2025-12-23 23:28:07,232 - INFO - Records loaded: 5
-2025-12-23 23:28:07,232 - ERROR - Doctors ETL Failed: Column names do not match expected values
-2025-12-23 23:28:07,233 - INFO - 
-Running Appointments ETL...
-2025-12-23 23:28:07,233 - INFO - Loading data from data/raw/Data Engineer's Appointments Excel - VIP Medical Group.xlsx
-2025-12-23 23:28:07,294 - INFO - Records loaded: 1025
-2025-12-23 23:28:07,322 - INFO - Records after removing null patient_id: 1022 (3 removed)
-2025-12-23 23:28:07,431 - INFO - Duplicate records detected: 0
-2025-12-23 23:28:07,432 - INFO - 
+2025-12-23 23:58:22,251 - INFO - 
+Running Doctors ETL...
+2025-12-23 23:58:22,251 - INFO - Loading data from data/raw/doc.xlsx
+2025-12-23 23:58:22,251 - INFO - Loading data from data/raw/doc.xlsx
+2025-12-23 23:58:22,600 - INFO - Records loaded: 5
+2025-12-23 23:58:22,600 - INFO - Records loaded: 5
+2025-12-23 23:58:22,604 - INFO - Records after removing null id: 5 (0 removed)
+2025-12-23 23:58:22,604 - INFO - Records after removing null id: 5 (0 removed)
+2025-12-23 23:58:22,604 - INFO - Duplicate records detected: 0
+2025-12-23 23:58:22,604 - INFO - Duplicate records detected: 0
+2025-12-23 23:58:22,605 - INFO - 
 Null values summary:
-2025-12-23 23:28:07,434 - INFO - Loading data to table appointments
-2025-12-23 23:28:07,551 - ERROR - Appointments ETL Failed: (psycopg2.errors.ForeignKeyViolation) insert or update on table "appointments" violates foreign key constraint "appointments_doctor_id_fkey"
-DETAIL:  Key (doctor_id)=(100) is not present in table "doctors".
+2025-12-23 23:58:22,605 - INFO - 
+Null values summary:
+2025-12-23 23:58:22,606 - INFO - id           0
+name         0
+specialty    0
+dtype: int64
+2025-12-23 23:58:22,606 - INFO - id           0
+name         0
+specialty    0
+dtype: int64
+2025-12-23 23:58:22,606 - INFO - Loading data to table doctors
+2025-12-23 23:58:22,606 - INFO - Loading data to table doctors
+2025-12-23 23:58:22,644 - INFO - Data loaded to doctors successfully.
+2025-12-23 23:58:22,644 - INFO - Data loaded to doctors successfully.
+2025-12-23 23:58:22,644 - INFO - 
+Running Appointments ETL...
+2025-12-23 23:58:22,644 - INFO - 
+Running Appointments ETL...
+2025-12-23 23:58:22,644 - INFO - Loading data from data/raw/app.xlsx
+2025-12-23 23:58:22,644 - INFO - Loading data from data/raw/app.xlsx
+2025-12-23 23:58:22,710 - INFO - Records loaded: 1025
+2025-12-23 23:58:22,710 - INFO - Records loaded: 1025
+2025-12-23 23:58:22,725 - INFO - Records after removing null patient_id: 1022 (3 removed)
+2025-12-23 23:58:22,725 - INFO - Records after removing null patient_id: 1022 (3 removed)
+2025-12-23 23:58:22,913 - INFO - Duplicate records detected: 0
+2025-12-23 23:58:22,913 - INFO - Duplicate records detected: 0
+2025-12-23 23:58:22,913 - INFO - 
+Null values summary:
+2025-12-23 23:58:22,913 - INFO - 
+Null values summary:
+2025-12-23 23:58:22,914 - INFO - id               0
+patient_id       0
+doctor_id        0
+booking_date    94
+status           0
+dtype: int64
+2025-12-23 23:58:22,914 - INFO - id               0
+patient_id       0
+doctor_id        0
+booking_date    94
+status           0
+dtype: int64
+2025-12-23 23:58:22,916 - INFO - Filtered 174 appointments with invalid doctor_ids.
+2025-12-23 23:58:22,916 - INFO - Filtered 174 appointments with invalid doctor_ids.
+2025-12-23 23:58:22,916 - INFO - Loading data to table appointments
+2025-12-23 23:58:22,916 - INFO - Loading data to table appointments
+2025-12-23 23:58:23,016 - INFO - Data loaded to appointments successfully.
+2025-12-23 23:58:23,016 - INFO - Data loaded to appointments successfully.
+Running Query 1: Most confirmed appointments
+   name    | confirmed_appointments 
+-----------+------------------------
+ Dr. Pérez |                    165
+(1 row)
 
-[SQL: INSERT INTO appointments (id, patient_id, doctor_id, booking_date, status) VALUES (%(id__0)s, %(patient_id__0)s, %(doctor_id__0)s, %(booking_date__0)s, %(status__0)s), (%(id__1)s, %(patient_id__1)s, %(doctor_id__1)s, %(booking_date__1)s, %(status__1) ... 95180 characters truncated ... 8)s), (%(id__999)s, %(patient_id__999)s, %(doctor_id__999)s, %(booking_date__999)s, %(status__999)s)]
-[parameters: {'id__0': 1, 'status__0': 'confirmed', 'patient_id__0': 10, 'booking_date__0': datetime.datetime(2025, 10, 20, 0, 0), 'doctor_id__0': 100, 'id__1': 2, 'status__1': 'cancelled', 'patient_id__1': 11, 'booking_date__1': datetime.datetime(2025, 10, 21, 0, 0), 'doctor_id__1': 101, 'id__2': 3, 'status__2': 'confirmed', 'patient_id__2': 12, 'booking_date__2': datetime.datetime(2025, 10, 20, 0, 0), 'doctor_id__2': 100, 'id__3': 4, 'status__3': 'confirmed', 'patient_id__3': 13, 'booking_date__3': datetime.datetime(2025, 10, 20, 0, 0), 'doctor_id__3': 101, 'id__4': 5, 'status__4': 'cancelled', 'patient_id__4': 14, 'booking_date__4': datetime.datetime(2025, 10, 20, 0, 0), 'doctor_id__4': 102, 'id__5': 6, 'status__5': 'confirmed', 'patient_id__5': 15, 'booking_date__5': datetime.datetime(2025, 10, 20, 0, 0), 'doctor_id__5': 103, 'id__6': 7, 'status__6': 'confirmed', 'patient_id__6': 16, 'booking_date__6': datetime.datetime(2025, 10, 20, 0, 0), 'doctor_id__6': 101, 'id__7': 8, 'status__7': 'cancelled', 'patient_id__7': 17, 'booking_date__7': datetime.datetime(2025, 10, 20, 0, 0), 'doctor_id__7': 105, 'id__8': 9, 'status__8': 'confirmed', 'patient_id__8': 18, 'booking_date__8': datetime.datetime(2025, 10, 20, 0, 0), 'doctor_id__8': 104, 'id__9': 10, 'status__9': 'confirmed', 'patient_id__9': 19, 'booking_date__9': datetime.datetime(2025, 10, 20, 0, 0), 'doctor_id__9': 104 ... 4900 parameters truncated ... 'id__990': 994, 'status__990': 'confirmed', 'patient_id__990': 27, 'booking_date__990': datetime.datetime(2025, 10, 25, 0, 0), 'doctor_id__990': 102, 'id__991': 995, 'status__991': 'confirmed', 'patient_id__991': 21, 'booking_date__991': datetime.datetime(2025, 10, 25, 0, 0), 'doctor_id__991': 102, 'id__992': 996, 'status__992': 'confirmed', 'patient_id__992': 11, 'booking_date__992': datetime.datetime(2025, 10, 25, 0, 0), 'doctor_id__992': 102, 'id__993': 997, 'status__993': 'cancelled', 'patient_id__993': 44, 'booking_date__993': datetime.datetime(2025, 10, 25, 0, 0), 'doctor_id__993': 102, 'id__994': 998, 'status__994': 'confirmed', 'patient_id__994': 19, 'booking_date__994': datetime.datetime(2025, 10, 25, 0, 0), 'doctor_id__994': 101, 'id__995': 999, 'status__995': 'confirmed', 'patient_id__995': 48, 'booking_date__995': datetime.datetime(2025, 10, 25, 0, 0), 'doctor_id__995': 103, 'id__996': 1000, 'status__996': 'confirmed', 'patient_id__996': 21, 'booking_date__996': datetime.datetime(2025, 10, 25, 0, 0), 'doctor_id__996': 104, 'id__997': 1001, 'status__997': 'confirmed', 'patient_id__997': 12, 'booking_date__997': datetime.datetime(2025, 10, 25, 0, 0), 'doctor_id__997': 101, 'id__998': 1002, 'status__998': 'cancelled', 'patient_id__998': 55, 'booking_date__998': datetime.datetime(2025, 10, 25, 0, 0), 'doctor_id__998': 100, 'id__999': 1003, 'status__999': 'confirmed', 'patient_id__999': 15, 'booking_date__999': datetime.datetime(2025, 10, 25, 0, 0), 'doctor_id__999': 101}]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-2025-12-23 23:28:47,887 - INFO - Initializing Database...
-2025-12-23 23:28:48,053 - INFO - Database initialized successfully.
-2025-12-23 23:28:48,165 - INFO - 
-Running Doctors ETL...
-2025-12-23 23:28:48,166 - INFO - Loading data from data/raw/Data Engineer's Doctors Excel - VIP Medical Group.xlsx
-2025-12-23 23:28:48,318 - INFO - Records loaded: 5
-2025-12-23 23:28:48,318 - ERROR - Doctors ETL Failed: Column names do not match expected values
-2025-12-23 23:28:48,318 - INFO - 
-Running Appointments ETL...
-2025-12-23 23:28:48,319 - INFO - Loading data from data/raw/Data Engineer's Appointments Excel - VIP Medical Group.xlsx
-2025-12-23 23:28:48,384 - INFO - Records loaded: 1025
-2025-12-23 23:28:48,395 - INFO - Records after removing null patient_id: 1022 (3 removed)
-2025-12-23 23:28:48,504 - INFO - Duplicate records detected: 0
-2025-12-23 23:28:48,505 - INFO - 
-Null values summary:
-2025-12-23 23:28:48,507 - INFO - Loading data to table appointments
-2025-12-23 23:28:48,707 - ERROR - Appointments ETL Failed: (psycopg2.errors.ForeignKeyViolation) insert or update on table "appointments" violates foreign key constraint "appointments_doctor_id_fkey"
-DETAIL:  Key (doctor_id)=(100) is not present in table "doctors".
+Running Query 2: Patient 34 confirmed
+ patient_34_confirmed_count 
+----------------------------
+                         15
+(1 row)
 
-[SQL: INSERT INTO appointments (id, patient_id, doctor_id, booking_date, status) VALUES (%(id__0)s, %(patient_id__0)s, %(doctor_id__0)s, %(booking_date__0)s, %(status__0)s), (%(id__1)s, %(patient_id__1)s, %(doctor_id__1)s, %(booking_date__1)s, %(status__1) ... 95180 characters truncated ... 8)s), (%(id__999)s, %(patient_id__999)s, %(doctor_id__999)s, %(booking_date__999)s, %(status__999)s)]
-[parameters: {'id__0': 1, 'doctor_id__0': 100, 'status__0': 'confirmed', 'booking_date__0': datetime.datetime(2025, 10, 20, 0, 0), 'patient_id__0': 10, 'id__1': 2, 'doctor_id__1': 101, 'status__1': 'cancelled', 'booking_date__1': datetime.datetime(2025, 10, 21, 0, 0), 'patient_id__1': 11, 'id__2': 3, 'doctor_id__2': 100, 'status__2': 'confirmed', 'booking_date__2': datetime.datetime(2025, 10, 20, 0, 0), 'patient_id__2': 12, 'id__3': 4, 'doctor_id__3': 101, 'status__3': 'confirmed', 'booking_date__3': datetime.datetime(2025, 10, 20, 0, 0), 'patient_id__3': 13, 'id__4': 5, 'doctor_id__4': 102, 'status__4': 'cancelled', 'booking_date__4': datetime.datetime(2025, 10, 20, 0, 0), 'patient_id__4': 14, 'id__5': 6, 'doctor_id__5': 103, 'status__5': 'confirmed', 'booking_date__5': datetime.datetime(2025, 10, 20, 0, 0), 'patient_id__5': 15, 'id__6': 7, 'doctor_id__6': 101, 'status__6': 'confirmed', 'booking_date__6': datetime.datetime(2025, 10, 20, 0, 0), 'patient_id__6': 16, 'id__7': 8, 'doctor_id__7': 105, 'status__7': 'cancelled', 'booking_date__7': datetime.datetime(2025, 10, 20, 0, 0), 'patient_id__7': 17, 'id__8': 9, 'doctor_id__8': 104, 'status__8': 'confirmed', 'booking_date__8': datetime.datetime(2025, 10, 20, 0, 0), 'patient_id__8': 18, 'id__9': 10, 'doctor_id__9': 104, 'status__9': 'confirmed', 'booking_date__9': datetime.datetime(2025, 10, 20, 0, 0), 'patient_id__9': 19 ... 4900 parameters truncated ... 'id__990': 994, 'doctor_id__990': 102, 'status__990': 'confirmed', 'booking_date__990': datetime.datetime(2025, 10, 25, 0, 0), 'patient_id__990': 27, 'id__991': 995, 'doctor_id__991': 102, 'status__991': 'confirmed', 'booking_date__991': datetime.datetime(2025, 10, 25, 0, 0), 'patient_id__991': 21, 'id__992': 996, 'doctor_id__992': 102, 'status__992': 'confirmed', 'booking_date__992': datetime.datetime(2025, 10, 25, 0, 0), 'patient_id__992': 11, 'id__993': 997, 'doctor_id__993': 102, 'status__993': 'cancelled', 'booking_date__993': datetime.datetime(2025, 10, 25, 0, 0), 'patient_id__993': 44, 'id__994': 998, 'doctor_id__994': 101, 'status__994': 'confirmed', 'booking_date__994': datetime.datetime(2025, 10, 25, 0, 0), 'patient_id__994': 19, 'id__995': 999, 'doctor_id__995': 103, 'status__995': 'confirmed', 'booking_date__995': datetime.datetime(2025, 10, 25, 0, 0), 'patient_id__995': 48, 'id__996': 1000, 'doctor_id__996': 104, 'status__996': 'confirmed', 'booking_date__996': datetime.datetime(2025, 10, 25, 0, 0), 'patient_id__996': 21, 'id__997': 1001, 'doctor_id__997': 101, 'status__997': 'confirmed', 'booking_date__997': datetime.datetime(2025, 10, 25, 0, 0), 'patient_id__997': 12, 'id__998': 1002, 'doctor_id__998': 100, 'status__998': 'cancelled', 'booking_date__998': datetime.datetime(2025, 10, 25, 0, 0), 'patient_id__998': 55, 'id__999': 1003, 'doctor_id__999': 101, 'status__999': 'confirmed', 'booking_date__999': datetime.datetime(2025, 10, 25, 0, 0), 'patient_id__999': 15}]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-2025-12-23 23:30:23,485 - INFO - Initializing Database...
-2025-12-23 23:30:23,755 - INFO - Database initialized successfully.
-2025-12-23 23:30:23,822 - INFO - 
-Running Doctors ETL...
-2025-12-23 23:30:23,822 - INFO - Loading data from data/raw/Data Engineer's Doctors Excel - VIP Medical Group.xlsx
-2025-12-23 23:30:24,026 - INFO - Records loaded: 5
-2025-12-23 23:30:24,032 - INFO - Records after removing null id: 5 (0 removed)
-2025-12-23 23:30:24,036 - INFO - Duplicate records detected: 0
-2025-12-23 23:30:24,037 - INFO - 
-Null values summary:
-2025-12-23 23:30:24,039 - INFO - Loading data to table doctors
-2025-12-23 23:30:24,094 - INFO - Data loaded to doctors successfully.
-2025-12-23 23:30:24,095 - INFO - 
-Running Appointments ETL...
-2025-12-23 23:30:24,095 - INFO - Loading data from data/raw/Data Engineer's Appointments Excel - VIP Medical Group.xlsx
-2025-12-23 23:30:24,168 - INFO - Records loaded: 1025
-2025-12-23 23:30:24,181 - INFO - Records after removing null patient_id: 1022 (3 removed)
-2025-12-23 23:30:24,321 - INFO - Duplicate records detected: 0
-2025-12-23 23:30:24,322 - INFO - 
-Null values summary:
-2025-12-23 23:30:24,329 - INFO - Filtered 174 appointments with invalid doctor_ids.
-2025-12-23 23:30:24,329 - INFO - Loading data to table appointments
-2025-12-23 23:30:24,381 - INFO - Data loaded to appointments successfully.
-2025-12-23 23:30:30,897 - INFO - Initializing Database...
-2025-12-23 23:30:30,940 - INFO - Database initialized successfully.
-2025-12-23 23:30:31,014 - INFO - 
-Running Doctors ETL...
-2025-12-23 23:30:31,014 - INFO - Loading data from data/raw/Data Engineer's Doctors Excel - VIP Medical Group.xlsx
-2025-12-23 23:30:31,163 - INFO - Records loaded: 5
-2025-12-23 23:30:31,166 - INFO - Records after removing null id: 5 (0 removed)
-2025-12-23 23:30:31,167 - INFO - Duplicate records detected: 0
-2025-12-23 23:30:31,167 - INFO - 
-Null values summary:
-2025-12-23 23:30:31,168 - INFO - Loading data to table doctors
-2025-12-23 23:30:31,208 - INFO - Data loaded to doctors successfully.
-2025-12-23 23:30:31,209 - INFO - 
-Running Appointments ETL...
-2025-12-23 23:30:31,210 - INFO - Loading data from data/raw/Data Engineer's Appointments Excel - VIP Medical Group.xlsx
-2025-12-23 23:30:31,270 - INFO - Records loaded: 1025
-2025-12-23 23:30:31,277 - INFO - Records after removing null patient_id: 1022 (3 removed)
-2025-12-23 23:30:31,383 - INFO - Duplicate records detected: 0
-2025-12-23 23:30:31,383 - INFO - 
-Null values summary:
-2025-12-23 23:30:31,385 - INFO - Filtered 174 appointments with invalid doctor_ids.
-2025-12-23 23:30:31,385 - INFO - Loading data to table appointments
-2025-12-23 23:30:31,429 - INFO - Data loaded to appointments successfully.
+Running Query 3: Cancelled appointments Oct 21-24
+ cancelled_count 
+-----------------
+              67
+(1 row)
+
+Running Query 4: Total confirmed per doctor
+     name      | total_confirmed 
+---------------+-----------------
+ Dr. Pérez     |             165
+ Dr. Martínez  |             139
+ Dr. Sánchez   |             133
+ Dr. Gómez     |             128
+ Dr. Rodríguez |             114
+(5 rows)
+

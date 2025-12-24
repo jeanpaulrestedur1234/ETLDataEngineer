@@ -1,134 +1,234 @@
-# HealthTech ETL Pipeline
+# 🏥 HealthTech ETL Pipeline
 
-## Overview
-This project is a local ETL (Extract, Transform, Load) pipeline designed to process doctor and appointment data from Excel files and load it into a PostgreSQL database. It is built using Python and Docker.
+## 📋 Project Description
 
-## Project Structure
+A local ETL pipeline designed to process doctor and medical appointment data from Excel files and load them into a PostgreSQL database. This solution automates data cleaning, transformation, and loading for digital health analysis.
+
+---
+
+## 📁 Project Structure
+
 ```
 ETLDataEngineer/
-├── data/
-│   └── raw/                # Raw input files (doctors.xlsx, appointments.xlsx)
-├── logs/                   # Execution logs (etl_pipeline.log)
-├── notebooks/              # Jupyter notebooks for EDA
-├── sql/                    # SQL queries (split by business question)
-│   ├── 1_most_confirmed_doctor.sql
-│   ├── 2_patient_34_confirmed.sql
-│   ├── 3_cancelled_oct_21_24.sql
-│   └── 4_confirmed_per_doctor.sql
-├── src/
-│   ├── ETL/                # ETL Classes (DoctorsETL, AppointmentsETL, services)
-│   ├── db.py               # Database connection and schema init
-│   └── run_etl.py          # Main ETL pipeline script
-├── docker-compose.yml      # PostgreSQL Docker configuration
-├── Makefile                # Project orchestration
-├── requirements.txt        # Python dependencies
-└── README.md               # This file
+├── 📁 data/
+│   └── 📁 raw/                 # Raw input files (Excel)
+│       ├── doctors.xlsx
+│       └── appointments.xlsx
+├── 📁 logs/                    # Execution logs
+│   └── etl_pipeline.log
+├── 📁 notebooks/               # Jupyter notebooks for EDA
+├── 📁 sql/                     # SQL queries organized by business question
+│   ├── 1_most_confirmed_doctor.sql
+│   ├── 2_patient_34_confirmed.sql
+│   ├── 3_cancelled_oct_21_24.sql
+│   └── 4_confirmed_per_doctor.sql
+├── 📁 src/
+│   ├── 📁 ETL/                 # ETL Classes (DoctorsETL, AppointmentsETL, services)
+│   ├── db.py                   # DB connection and schema initialization
+│   └── run_etl.py              # Main ETL pipeline script
+├── 📄 docker-compose.yml       # PostgreSQL Docker configuration
+├── 📄 Makefile                 # Project orchestration
+├── 📄 requirements.txt         # Python dependencies
+├── 📄 .env.example             # Environment variables template
+└── 📄 README.md                # This file
+
 ```
 
-## Setup Instructions
+---
 
-### Prerequisites
-- Python 3.8+
-- Docker & Docker Compose
+## 🗄️ Database Schema
 
-### Data Preparation
-Before running the pipeline, ensure your source files are placed in the correct directory:
--   **Directory**: `data/raw/`
--   **Files Required**:
-    -   `doctors.xlsx`
-    -   `appointments.xlsx`
+### Relationship Diagram
 
-*Note: The file paths are configurable via the `.env` file.*
+```mermaid
+erDiagram
+    DOCTORS {
+        int id PK
+        string name
+        string specialty
+    }
+    
+    APPOINTMENTS {
+        string id PK
+        int patient_id
+        int doctor_id FK
+        timestamp booking_date
+        string status
+    }
+    
+    DOCTORS ||--o{ APPOINTMENTS : "has"
 
-### Environment Setup
+```
 
-#### 1. Virtual Environment
-It is recommended to use a virtual environment to isolate dependencies.
+---
+
+## 🔄 ETL Pipeline Workflow
+
+### Process Flowchart
+
+```mermaid
+flowchart TD
+    A["Excel Files (data/raw/)"] --> B["Extract (Pandas read_excel)"]
+    B --> C{Transform}
+    
+    C --> D["Doctors: Name cleaning & Type validation"]
+    C --> E["Appointments: Drop missing patient_id & Normalize status"]
+    
+    D --> F[Valid Doctor IDs]
+    E --> G{Referential Integrity Filter}
+    F --> G
+    
+    G --> H["Valid Appointments (doctor_id exists)"]
+    G --> I["Discarded Records (Logged for audit)"]
+    
+    H --> J[Load PostgreSQL]
+    D --> J
+    
+    J --> K["Healthtech Schema (TRUNCATE + INSERT)"]
+    K --> L["✅ Data ready for queries"]
+
+```
+
+## 📈 Data Quality Metrics
+
+The pipeline generates a quality report at the end of each execution, visible in the logs. The following metrics are calculated to ensure insight reliability:
+
+| Metric | Description | Alert Threshold |
+| --- | --- | --- |
+| **ID Completeness** | % of records with non-null `patient_id` and `doctor_id`. | < 100% (Critical Error) |
+| **Referential Integrity** | % of appointments whose `doctor_id` exists in the master table. | < 95% (Warning) |
+| **Duplicate Rate** | Number of rows removed due to being identical. | > 5% (Check source) |
+| **Typing Success** | % of dates (`booking_date`) successfully converted to DateTime. | < 100% (Format Error) |
+
+---
+
+## 🛠️ Error Handling and Exceptions
+
+The system is designed to be **fail-safe**, documenting every anomaly without compromising the entire process:
+
+### 1. Critical Errors (Pipeline Stops)
+
+* **Connection Failure:** If the PostgreSQL container is inactive, the script stops and raises a `ConnectionError`.
+* **Corrupted Files:** If Excel files cannot be read by Pandas, the process terminates to prevent partial data loading.
+* **Invalid Schema:** If mandatory columns (`id`, `status`) are missing, the pipeline aborts.
+
+### 2. Non-Critical Errors (Filter & Log)
+
+To maintain business continuity, certain errors only discard the affected row:
+
+* **Orphaned `Doctor ID`:** If an appointment belongs to a doctor not found in `doctors.xlsx`, the appointment is moved to an audit log and is not loaded into the DB to maintain referential integrity.
+* **Invalid Date Format:** If a date cannot be parsed, the record is discarded, and the row ID is reported in the log.
+* **Unknown Status:** Unmapped statuses are normalized to `unknown` rather than failing, allowing for later analysis of anomalous data.
+
+---
+
+
+
+## 🚀 Quick Start
+
+### 1. Environment Setup
+
 ```bash
+# Clone the repository
+git clone <your-repository-url>
+cd ETLDataEngineer
+
+# Setup environment variables
+cp .env.example .env
+
+# Setup Virtual Environment
 python3 -m venv venv
-source venv/bin/activate
+source venv/bin/activate  # venv\Scripts\activate on Windows
+
+# Install dependencies and start DB
+make install
+make up
+
 ```
 
-#### 2. Configuration (.env)
-Create a `.env` file in the project root to configure the database connection and file paths. You can use the provided `.env.example` as a template.
+### 2. Execution
 
-**Required Variables**:
-```ini
-# Database credentials
-DB_USER=user
-DB_PASSWORD=password
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=healthtech
+```bash
+# Run the complete pipeline
+make run
 
-# Data file paths
-DOCTORS_INPUT=data/raw/doctors.xlsx
-APPOINTMENTS_INPUT=data/raw/appointments.xlsx
+# Monitor logs
+tail -f logs/etl_pipeline.log
+
 ```
 
-### Quick Start with Makefile
-The project uses a `Makefile` for easy orchestration.
+---
 
-1.  **Install Dependencies**:
-    ```bash
-    make install
-    ```
+## ⚡ Available Commands (Makefile)
 
-2.  **Start Database**:
-    ```bash
-    make up
-    ```
+| Command | Description |
+| --- | --- |
+| `make install` | Installs Python dependencies |
+| `make up` | Starts the PostgreSQL container |
+| `make down` | Stops the PostgreSQL container |
+| `make etl` | Runs only the ETL process |
+| `make queries` | Executes SQL business queries |
+| `make run` | Runs Full Workflow (ETL + Queries) |
 
-3.  **Run Full Pipeline (ETL + Queries)**:
-    ```bash
-    make run
-    ```
-    *This command runs the ETL process and executes the business queries, logging everything to `logs/etl_pipeline.log`.*
+---
 
-### Available Commands
--   `make install`: Install dependencies from requirements.txt.
--   `make up`: Start PostgreSQL container.
--   `make down`: Stop PostgreSQL container.
--   `make etl`: Run only the ETL process (`src/run_etl.py`).
--   `make queries`: Run only the SQL queries.
--   `make clean`: Remove temporary files (`__pycache__`).
+## ☁️ AWS Architecture (Production Proposal)
 
-### Logs
-All execution outputs (ETL progress, SQL results, errors) are saved to:
-`logs/etl_pipeline.log`
+### Architecture Diagram
 
-## Pipeline Explanation
+```mermaid
+graph TB
+    subgraph "Orchestration"
+        SF[AWS Step Functions]
+    end
+    
+    subgraph "Extract"
+        S3[S3 Bucket]
+        Lambda1[Lambda S3 Trigger]
+    end
+    
+    subgraph "Transform"
+        Glue[AWS Glue Job]
+    end
+    
+    subgraph "Load"
+        RDS[RDS PostgreSQL]
+    end
+    
+    S3 -->|PUT Event| Lambda1
+    Lambda1 -->|Start| SF
+    SF -->|Execute| Glue
+    Glue -->|Load| RDS
 
-### 1. Extract
-- Reads `.xlsx` files using `pandas`.
-- Logs the number of records extracted.
+```
 
-### 2. Transform
-- **Cleaning**: Standardizes column names to lowercase.
-- **Validation**:
-    - Drops appointments with missing `patient_id`.
-    - Converts `booking_date` to datetime objects.
-- **Standardization**:
-    - Normalizes `status` values to lowercase (e.g., 'Predicted' -> 'predicted', 'canceled' -> 'cancelled').
-    - Ensures correct data types for IDs.
-- **Data Integrity & Foreign Keys**:
-    - The pipeline enforces **Referential Integrity** between Doctors and Appointments.
-    - Since `appointments.doctor_id` is a Foreign Key referencing `doctors.id`, any appointment with a `doctor_id` that does not exist in the processed Doctors list is **effectively filtered out**.
-    - This prevents database errors (`ForeignKeyViolation`) and ensures only valid appointments are loaded. These excluded records are logged for review.
+### Stack Justification
 
-### 3. Load
-- **Target**: Local PostgreSQL database (`healthtech` schema).
-- **Strategy**: Idempotent load using `TRUNCATE` + `INSERT`.
-    - Tables are truncated with `CASCADE` to handle foreign keys.
-    - Data is bulk inserted using `to_sql`.
+* **S3 + Lambda:** Event-driven ingestion.
+* **AWS Glue:** Scalable serverless Spark/Python environment.
+* **RDS:** Fully managed relational database.
+* **CloudWatch:** Centralized observability for logs and failures.
 
-## AWS Architecture Proposal
-In a production environment on AWS, I would propose the following architecture:
 
-| Stage | AWS Tool | Justification |
-| :--- | :--- | :--- |
-| **Extract** | **S3 + Lambda** | Upload raw Excel files to an S3 bucket. An S3 Event Trigger invokes a Lambda function to start processing. S3 provides durable logic storage, and Lambda is cost-effective for event-driven extraction. |
-| **Transform** | **AWS Glue** | For scalable, serverless data integration. Glue jobs (Python/Spark) can handle complex transformations, schema evolution, and large datasets efficiently. For smaller datasets, Lambda with Pandas layers might suffice, but Glue is more robust for scaling. |
-| **Load** | **Amazon RDS (PostgreSQL)** | Managed relational database service. Handles backups, patching, and scaling. Alternatively, **Amazon Redshift** if the goal is purely analytical warehousing with massive data volume. |
-| **Orchestration** | **AWS Step Functions** | To coordinate the workflow (S3 -> Glue -> RDS) and handle retries/failures gracefully. |
 
+---
+
+
+## 📊 Business Queries
+
+Once the ETL is finished, the following are automatically executed:
+
+1. **🏆 Ranking:** Doctor with the highest number of confirmed appointments.
+2. **👤 Specific Patient:** Confirmed history for patient #34.
+3. **❌ Loss Analysis:** Cancelled appointments during the 2021-2024 period.
+4. **📈 KPI:** Confirmation ratio by medical specialty.
+
+---
+
+## ✨ Key Features
+
+✅ **Idempotency:** You can run the pipeline multiple times; the final result will always be consistent.
+
+✅ **Audit Logging:** Every discarded record has a "reason" documented in the log file.
+
+✅ **Cloud-Ready Architecture:** Designed for easy migration to AWS Glue and RDS.

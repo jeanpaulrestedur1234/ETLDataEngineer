@@ -1,5 +1,7 @@
 PYTHON = ./venv/bin/python
 PIP = ./venv/bin/pip
+SHELL := /bin/bash
+
 
 .PHONY: help install up down etl queries run clean
 
@@ -24,20 +26,22 @@ down:
 
 etl:
 	@mkdir -p logs
+	@set -o pipefail; \
 	$(PYTHON) src/run_etl.py 2>&1 | tee -a logs/etl_pipeline.log
+
 
 queries:
 	@mkdir -p logs
 	@echo "Running Query 1: Most confirmed appointments" | tee -a logs/etl_pipeline.log
 	docker exec -i healthtech_postgres psql -U user -d healthtech < sql/1_most_confirmed_doctor.sql 2>&1 | tee -a logs/etl_pipeline.log
-	@echo "\nRunning Query 2: Patient 34 confirmed" | tee -a logs/etl_pipeline.log
+	@echo "Running Query 2: Patient 34 confirmed" | tee -a logs/etl_pipeline.log
 	docker exec -i healthtech_postgres psql -U user -d healthtech < sql/2_patient_34_confirmed.sql 2>&1 | tee -a logs/etl_pipeline.log
-	@echo "\nRunning Query 3: Cancelled appointments Oct 21-24" | tee -a logs/etl_pipeline.log
+	@echo "Running Query 3: Cancelled appointments Oct 21-24" | tee -a logs/etl_pipeline.log
 	docker exec -i healthtech_postgres psql -U user -d healthtech < sql/3_cancelled_oct_21_24.sql 2>&1 | tee -a logs/etl_pipeline.log
-	@echo "\nRunning Query 4: Total confirmed per doctor" | tee -a logs/etl_pipeline.log
+	@echo "Running Query 4: Total confirmed per doctor" | tee -a logs/etl_pipeline.log
 	docker exec -i healthtech_postgres psql -U user -d healthtech < sql/4_confirmed_per_doctor.sql 2>&1 | tee -a logs/etl_pipeline.log
 
-run: etl queries
+run: clean etl queries
 
 clean:
 	find . -type d -name "__pycache__" -exec rm -rf {} +
