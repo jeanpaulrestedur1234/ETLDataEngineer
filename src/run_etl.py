@@ -10,17 +10,29 @@ from ETL.DoctorsETL import DoctorsETL
 from ETL.AppointmentsETL import AppointmentsETL
 from db import init_db, get_sqlalchemy_engine
 
+import logging
+
 def setup_logging():
-    log_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'logs')
-    os.makedirs(log_dir, exist_ok=True)
-    log_file = os.path.join(log_dir, 'etl_pipeline.log')
+    logger = logging.getLogger()
     
-    file_handler = logging.FileHandler(log_file)
-    file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+    if logger.handlers:
+        return  # Prevent duplicate handlers
     
-    # Add handler to root logger
-    logging.getLogger().addHandler(file_handler)
-    logging.getLogger().setLevel(logging.INFO)
+    logger.setLevel(logging.INFO)
+
+    formatter = logging.Formatter(
+        "%(asctime)s - %(levelname)s - %(message)s"
+    )
+
+    file_handler = logging.FileHandler("logs/etl_pipeline.log")
+    file_handler.setFormatter(formatter)
+
+    console_handler = logging.StreamHandler()
+    console_handler.setFormatter(formatter)
+
+    logger.addHandler(file_handler)
+    logger.addHandler(console_handler)
+
 
 def validate_paths(doctors_path, appointments_path):
     missing = []
@@ -88,7 +100,7 @@ def main():
             initial_count = len(df_appointments)
             df_appointments = df_appointments[df_appointments['doctor_id'].isin(valid_doctor_ids)]
             filtered_count = len(df_appointments)
-            logging.info(f"Filtered {initial_count - filtered_count} appointments with invalid doctor_ids.")
+            logging.warning(f"Filtered {initial_count - filtered_count} appointments with invalid doctor_ids.")
 
   
         appointments_etl.loader.load_to_db(df_appointments, 'appointments', engine)
