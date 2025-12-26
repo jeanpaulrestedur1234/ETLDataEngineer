@@ -175,13 +175,6 @@ All raw data files must be located in:
 data/raw/
 ```
 
-## ⚙️ Environment Configuration
-
-Define the data path in the `.env` file:
-
-```env
-RAW_DATA_PATH=data/raw/
-```
 
 ---
 
