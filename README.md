@@ -258,7 +258,7 @@ Once the ETL is finished, the following are automatically executed:
 
 ## ✨ Key Features
 
-✅ **Idempotency:** You can run the pipeline multiple times; the final result will always be consistent.
+✅ **Idempotency:**  can run the pipeline multiple times; the final result will always be consistent.
 
 ✅ **Audit Logging:** Every discarded record has a "reason" documented in the log file.
 
