@@ -263,3 +263,26 @@ Once the ETL is finished, the following are automatically executed:
 ✅ **Audit Logging:** Every discarded record has a "reason" documented in the log file.
 
 ✅ **Cloud-Ready Architecture:** Designed for easy migration to AWS Glue and RDS.
+
+## 🏗️ AWS Glue Deployment
+
+### 1. Build the Package
+Pack the code into an `.egg` file for Glue:
+```bash
+make build-glue
+```
+
+### 2. Upload to S3
+Upload the following files to your bucket:
+- `src/dist/*.egg` -> `s3://bucket/lib/`
+- `glue_job/glue_etl.py` -> `s3://bucket/scripts/`
+- `data/raw/*.xlsx` -> `s3://bucket/data/`
+
+### 3. Run Glue Job
+Use the `Python Shell` with minimal configuration. Pass `DOCTORS_INPUT`, `APPOINTMENTS_INPUT`, and DB credentials as Job Arguments.
+
+### 4. Local Testing
+You can test the Glue logic locally (mocked):
+```bash
+./venv/bin/python tests/test_glue_local.py
+```

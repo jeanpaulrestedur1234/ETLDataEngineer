@@ -3,7 +3,7 @@ PIP = ./venv/bin/pip
 SHELL := /bin/bash
 
 
-.PHONY: help install up down etl queries run clean
+.PHONY: help install up down etl queries run clean build-glue
 
 help:
 	@echo "Available commands:"
@@ -14,6 +14,7 @@ help:
 	@echo "  make queries   - Run the business questions SQL queries"
 	@echo "  make run       - Run both ETL and queries"
 	@echo "  make clean     - Remove temporary files and compiled Python files"
+	@echo "  make build-glue - Package the ETL code for AWS Glue"
 
 install:
 	$(PIP) install -r requirements.txt
@@ -47,3 +48,8 @@ clean:
 	find . -type d -name "__pycache__" -exec rm -rf {} +
 	find . -type f -name "*.pyc" -delete
 	rm -rf logs
+
+build-glue:
+	cd src && python3 setup.py bdist_egg
+	@echo "Package created at src/dist/"
+
